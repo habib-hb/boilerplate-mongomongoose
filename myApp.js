@@ -71,24 +71,37 @@ const findEditThenSave = (personId, done) => {
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
-
-  done(null /*, data*/);
+  Person.findOneAndUpdate({name:personName}, {age:ageToSet}, {new: true}, (err, data)=>{
+    if(err) return done(err);
+    done(null, data);
+  })
+  // done(null /*, data*/);
 };
 
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findByIdAndRemove(personId, (err, data)=>{
+      if(err) return done(err);
+      done(null, data);
+  })
+  // done(null /*, data*/);
 };
 
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
-
-  done(null /*, data*/);
+  Person.remove({name: nameToRemove}, (err, data)=>{
+    if(err) return done(err);
+    done(null, data);
+  })
+  // done(null /*, data*/);
 };
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
-
-  done(null /*, data*/);
+  Person.find({favoriteFoods: foodToSearch}).sort({name:1}).limit(2).select({name:1,favoriteFoods:1}).exec((err, data)=>{
+    if(err) return done(err);
+    done(null, data);
+  })
+  // done(null /*, data*/);
 };
 
 /** **Well Done !!**
